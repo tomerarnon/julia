@@ -219,3 +219,11 @@ end
 let (:)(a,b) = (i for i in Base.:(:)(1,10) if i%2==0)
     @test Int8[ i for i = 1:2 ] == [2,4,6,8,10]
 end
+
+@testset "indexing" begin
+    g = (i % 2 == 0 ? error("invalid") : i for i in 1:3)
+
+    @test g[3] == 3
+    @test firstindex(g) == 1
+    @test lastindex(g) == 3
+end

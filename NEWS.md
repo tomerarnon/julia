@@ -82,6 +82,7 @@ New library features
 
 * The `redirect_*` functions can now be called on `IOContext` objects.
 * New constructor `NamedTuple(iterator)` that constructs a named tuple from a key-value pair iterator.
+* Generators support `getindex`, `firstindex`, and `lastindex` if indexing is supported by the underlying iterator.
 
 Standard library changes
 ------------------------
