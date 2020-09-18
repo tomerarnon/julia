@@ -808,6 +808,16 @@ static jl_svec_t *cache_rehash_set(jl_svec_t *a, size_t newsz)
     }
 }
 
+void jl_rehash_type_cache(jl_typename_t *name)
+{
+    size_t sz = jl_svec_len(name->cache);
+    jl_svec_t *newa = cache_rehash_set(name->cache, sz);
+    assert(jl_svec_len(newa) == sz);
+    size_t i;
+    for (i = 0; i < sz; i++)
+        jl_svecset(name->cache, i, jl_svecref(newa, i));
+}
+
 static void cache_insert_type_linear(jl_datatype_t *type, ssize_t insert_at)
 {
     jl_svec_t *cache = type->name->linearcache;
