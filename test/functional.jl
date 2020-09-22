@@ -224,6 +224,7 @@ end
     g = (i % 2 == 0 ? error("invalid") : i for i in 1:3)
 
     @test g[3] == 3
+    @test g[1:2:3] == [1, 3]
     @test firstindex(g) == 1
     @test lastindex(g) == 3
 end
