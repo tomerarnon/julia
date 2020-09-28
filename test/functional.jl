@@ -227,4 +227,7 @@ end
     @test g[1:2:3] == [1, 3]
     @test firstindex(g) == 1
     @test lastindex(g) == 3
+
+    @test (tuple(x) for x in ["a"])[1] == ("a",)
+    @test (tuple(x) for x in [[0]])[1] == ([0],)
 end

@@ -52,7 +52,16 @@ size(g::Generator) = size(g.iter)
 axes(g::Generator) = axes(g.iter)
 ndims(g::Generator) = ndims(g.iter)
 
-getindex(g::Generator, I...) = map(g.f, g.iter[I...])
+function getindex(g::Generator, I...)
+    I′ = to_indices(g.iter, I)
+    subset = g.iter[I′...]
+    if isempty(index_shape(I′...))
+        g.f(subset)
+    else
+        map(g.f, subset)
+    end
+end
+
 firstindex(g::Generator) = firstindex(g.iter)
 lastindex(g::Generator) = lastindex(g.iter)
 
