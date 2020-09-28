@@ -230,4 +230,5 @@ end
 
     @test (tuple(x) for x in ["a"])[1] == ("a",)
     @test (tuple(x) for x in [[0]])[1] == ([0],)
+    @test (x * y for (x, y) in Dict(3 => 4))[1] == 12
 end

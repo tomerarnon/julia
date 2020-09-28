@@ -52,7 +52,7 @@ size(g::Generator) = size(g.iter)
 axes(g::Generator) = axes(g.iter)
 ndims(g::Generator) = ndims(g.iter)
 
-function getindex(g::Generator, I...)
+function getindex(g::Generator{<:AbstractArray}, I...)
     I′ = to_indices(g.iter, I)
     subset = g.iter[I′...]
     if isempty(index_shape(I′...))
@@ -61,6 +61,8 @@ function getindex(g::Generator, I...)
         map(g.f, subset)
     end
 end
+
+getindex(g::Generator, I...) = collect(g)[I...]
 
 firstindex(g::Generator) = firstindex(g.iter)
 lastindex(g::Generator) = lastindex(g.iter)
