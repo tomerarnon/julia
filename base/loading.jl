@@ -1481,9 +1481,9 @@ function get_preferences(uuid::UUID, cache::TOMLCache = TOMLCache();
     # Fall back to default value of "no preferences".
     return Dict{String,Any}()
 end
-get_preferences_hash(uuid::UUID, cache::TOMLCache = TOMLCache()) = UInt64(hash(get_preferences(uuid, cache)))
+get_preferences_hash(uuid::UUID, cache::TOMLCache = TOMLCache()) = UInt64(hash(julia_debug, hash(get_preferences(uuid, cache))))
 get_preferences_hash(m::Module, cache::TOMLCache = TOMLCache()) = get_preferences_hash(PkgId(m).uuid, cache)
-get_preferences_hash(::Nothing, cache::TOMLCache = TOMLCache()) = UInt64(hash(Dict{String,Any}()))
+get_preferences_hash(::Nothing, cache::TOMLCache = TOMLCache()) = UInt64(hash(julia_debug, hash(Dict{String,Any}())))
 
 
 # returns true if it "cachefile.ji" is stale relative to "modpath.jl"
