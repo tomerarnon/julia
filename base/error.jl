@@ -202,7 +202,7 @@ julia> @assert isodd(3) "What even are numbers?"
 ```
 """
 macro assert(ex, msgs...)
-    @isdefined(isdebug) && !(isdebug()) && return nothing
+    isdefined(@__MODULE__, :isdebug) && !(isdebug()) && return nothing
     msg = isempty(msgs) ? ex : msgs[1]
     if isa(msg, AbstractString)
         msg = msg # pass-through
