@@ -2500,8 +2500,15 @@ static Value *emit_bits_compare(jl_codectx_t &ctx, jl_cgval_t arg1, jl_cgval_t a
                 Value *nullcheck2 = nullptr;
                 auto fld1 = emit_getfield_knownidx(ctx, arg1, i, sty, &nullcheck1);
                 auto fld2 = emit_getfield_knownidx(ctx, arg2, i, sty, &nullcheck2);
-                answer = ctx.builder.CreateAnd(answer, emit_f_is(ctx, fld1, fld2,
-                                                                 nullcheck1, nullcheck2));
+                if (jl_field_isptr(sty, i) && jl_is_concrete_immutable(fldty)) {
+                    // concrete immutables that are !isinlinealloc might be reference cycles
+                    // issue #37872
+                    answer = emit_box_compare(ctx, fld1, fld2, nullcheck1, nullcheck2);
+                }
+                else {
+                    answer = ctx.builder.CreateAnd(answer, emit_f_is(ctx, fld1, fld2,
+                                                                     nullcheck1, nullcheck2));
+                }
             }
             return answer;
         }
